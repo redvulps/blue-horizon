@@ -1,0 +1,54 @@
+[package]
+name = "blue-horizon"
+version = "0.1.0"
+description = "A multiplatform Bluesky client"
+authors = ["you"]
+edition = "2021"
+
+[lib]
+name = "blue_horizon_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["protocol-asset", "tray-icon"] }
+tauri-plugin-opener = "2"
+tauri-plugin-dialog = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# HTTP + media processing
+reqwest = { version = "0.11", default-features = false, features = ["json", "stream", "rustls-tls"] }
+image = { version = "0.24", default-features = false, features = ["webp", "png", "jpeg"] }
+infer = "0.19"
+futures = "0.3"
+ipld-core = "0.4"
+
+# AT Protocol / Bluesky
+bsky-sdk = "0.1"
+atrium-common = "0.1"
+atrium-xrpc = "0.12"
+atrium-xrpc-client = "0.5"
+
+# Async runtime
+tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
+
+# Local persistence (offline-first)
+sqlx = { version = "0.8", features = ["sqlite", "runtime-tokio-rustls", "migrate", "chrono"] }
+uuid = { version = "1", features = ["v4"] }
+
+# Credential storage
+# Use sync-secret-service on Linux for persistent storage across sessions
+keyring = { version = "3", features = ["sync-secret-service"] }
+
+# Error handling
+thiserror = "2"
+
+# Logging
+tracing = "0.1"
+
+# Time
+chrono = { version = "0.4", features = ["serde"] }
+tauri-plugin-os = "2"
